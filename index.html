@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon Page - Easy Tutorials</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+<div class="container">
+    <a href="index.html"><h1 class="logo">Chawin Demo Launching</h1></a>
+
+    <div class="content">
+        <p>Website Is Under Maintenance</p>
+        <h1>We're <span>Launching</span> Soon</h1>
+        <div class="launch-time">
+            <div>
+                <p id="days">00</p>
+                <span>Days</span>
+            </div>
+            <div>
+                <p id="hours">00</p>
+                <span>Hours</span>
+            </div>
+            <div>
+                <p id="minutes">00</p>
+                <span>Minutes</span>
+            </div>
+            <div>
+                <p id="seconds">00</p>
+                <span>Seconds</span>
+            </div>
+        </div>
+        
+        <div class="hero">
+            <p>Subscribe for more details.</p>
+            <form name="submit-to-google-sheet">
+                <input type="email" name="Email" placeholder="Your email id" required>
+                <button type="submit"><i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+        </div>
+        <div class="thank">        
+            <span id="msg"></span>
+        </div>
+
+</div>
+<img src="images/ufo.png" class="rocket">
+<script>
+    var countDownDate = new Date("Dec24, 2023 00:00:00").getTime();
+    var x = setInterval(function(){
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("hours").innerHTML = hours;
+        document.getElementById("minutes").innerHTML = minutes;
+        document.getElementById("seconds").innerHTML = seconds;
+
+        if(distance < 0){
+            clearInterval(x);
+            document.getElementById("days").innerHTML = "00";
+            document.getElementById("hours").innerHTML = "00";
+            document.getElementById("minutes").innerHTML = "00";
+            document.getElementById("seconds").innerHTML = "00";
+        }
+
+    },1000);
+
+//// form
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyB3jMBBRfkIi0YPoJ-HqsMqIwoL-int33fyZuyuBvevuLr14DnZma8d20gtzbZDbNN/exec' // app script url here
+const form = document.forms['submit-to-google-sheet']
+const msg = document.getElementById("msg")
+
+form.addEventListener('submit', e => {
+  e.preventDefault()
+  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+    .then(response => {
+        msg.innerHTML = "Thank You For Subscribing!"
+        setTimeout(function(){
+            msg.innerHTML = ""
+        },5000)
+        form.reset()
+    })
+    .catch(error => console.error('Error!', error.message))
+})
+
+
+</script>
+
+</body>
+</html>
